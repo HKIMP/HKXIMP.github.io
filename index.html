@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-word2vec Parameter Learning Explained" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/05/word2vec%20Parameter%20Learning%20Explained/" class="article-date">
+  <time datetime="2020-04-05T14:52:31.787Z" itemprop="datePublished">2020-04-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/05/word2vec%20Parameter%20Learning%20Explained/">word2vec Parameter Learning Explained</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="word2vec-Parameter-Learning-Explained"><a href="#word2vec-Parameter-Learning-Explained" class="headerlink" title="word2vec Parameter Learning Explained"></a>word2vec Parameter Learning Explained</h1><h2 id="Back-propagation-with-Multi-Layer-Network"><a href="#Back-propagation-with-Multi-Layer-Network" class="headerlink" title="Back-propagation with Multi-Layer Network"></a>Back-propagation with Multi-Layer Network</h2><p><img src="word2vec%20Parameter%20Learning%20Explained.assets/image-20200306230343560.png" alt="image-20200306230343560"></p>
+<p>输入层：$\left{x_{k}\right}=\left{x_{1}, \cdots, x_{K}\right}$</p>
+<p>隐藏层：$\left{h_{i}\right}=\left{h_{1}, \cdots, h_{N}\right}$</p>
+<p>输出层：$\left{y_{j}\right}=\left{y_{1}, \cdots, y_{M}\right}$</p>
+<p>假设激活函数为 logisitc function –&gt; </p>
+<p>隐藏层：<br>$$<br>h_{i}=\sigma\left(u_{i}\right)=\sigma\left(\sum_{k=1}^{K} w_{k i} x_{k}\right)<br>$$</p>
+<p>$$<br>y_{j}<br>=\sigma\left(u_{j}^{\prime}\right)=\sigma\left(\sum_{i=1}^{N} w_{i j}^{\prime} h_{i}\right)<br>$$</p>
+<p>使用 方差 损失函数：<br>$$<br>E\left(\mathbf{x}, \mathbf{t}, \mathbf{W}, \mathbf{W}^{\prime}\right)=\frac{1}{2} \sum_{j=1}^{M}\left(y_{j}-t_{j}\right)^{2}<br>$$<br>从输出层开始，计算error对于y的导数：<br>$$<br>\frac{\partial E}{\partial y_{j}}=y_{j}-t_{j}<br>$$<br>接着计算 对于输出层来说的（纯输入）的导数：<br>$$<br>\frac{\partial E}{\partial u_{j}^{\prime}}=\frac{\partial E}{\partial y_{j}} \cdot \frac{\partial y_{j}}{\partial u_{j}^{\prime}}=\left(y_{j}-t_{j}\right) \cdot y_{j}\left(1-y_{j}\right):=\mathrm{EI}<em>{j^{\prime}}^{\prime}<br>$$<br>接下来算 隐藏层 与 输出层 之间 权重的 导数：<br>$$<br>\frac{\partial E}{\partial w</em>{i j}^{\prime}}=\frac{\partial E}{\partial u_{j}^{\prime}} \cdot \frac{\partial u_{j}^{\prime}}{\partial w_{i j}^{\prime}}=\mathrm{EI}<em>{j}^{\prime} \cdot h</em>{i}<br>$$<br>这个时候，我们就可以更新 $$\boldsymbol{w}<em>{i j}^{\prime}$$的 权重：<br>$$<br>\begin{aligned}<br>w</em>{i j}^{\prime}(\text { new }) &amp;=w_{i j}^{\prime}(\text { old })-\eta \cdot \frac{\partial E}{\partial w_{i j}^{\prime}} \<br>&amp;=w_{i j}^{\prime(\text { old })}-\eta \cdot \mathrm{EI}<em>{j}^{\prime} \cdot h</em>{i}<br>\end{aligned}<br>$$<br>接下来就是重复工作，来算出error对于$w_{ij}$的导数</p>
+<p>先算对于隐藏层：<br>$$<br>\frac{\partial E}{\partial h_{i}}=\sum_{j=1}^{M} \frac{\partial E}{\partial u_{j}^{\prime}} \frac{\partial u_{j}^{\prime}}{\partial h_{i}}=\sum_{j=1}^{M} \mathrm{EI}<em>{j}^{\prime} \cdot w</em>{i j}^{\prime}<br>$$<br>注意这里，多了sigma，因为每一个$h_i$影响到后边的每一项，多以加和。</p>
+<p>再算对于 隐藏层的纯输入的 导数：<br>$$<br>\frac{\partial E}{\partial u_{i}}=\frac{\partial E}{\partial h_{i}} \cdot \frac{\partial h_{i}}{\partial u_{i}}=\sum_{j=1}^{M} \mathrm{EI}<em>{j}^{\prime} \cdot w</em>{i j}^{\prime} \cdot h_{i}\left(1-h_{i}\right):=\mathrm{EI}<em>{i}<br>$$<br>最后算出error对于$w</em>{ij}$的导数：<br>$$<br>\frac{\partial E}{\partial w_{k i}}=\frac{\partial E}{\partial u_{i}} \cdot \frac{\partial u_{i}}{\partial w_{k i}}=\mathrm{EI}<em>{i} \cdot x</em>{k}<br>$$<br>更新权重：<br>$$<br>w_{k i}^{(\text {new })}=w_{k i}^{(\text {old })}-\eta \cdot \mathrm{EI}<em>{i} \cdot x</em>{k}<br>$$</p>
+<h2 id="Basics"><a href="#Basics" class="headerlink" title="Basics"></a>Basics</h2><p>logistic function定义为如下：<br>$$<br>\sigma(u)=\frac{1}{1+e^{-u}}<br>$$<br>有以下两个性质：<br>$$<br>\sigma(-u)=1-\sigma(u)<br>$$</p>
+<p>$$<br>\frac{d \sigma(u)}{d u}=\sigma(u) \sigma(-u)<br>$$</p>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>用Word2vec学习到的 词 的向量表示 已经展现出能承载语义，useful in</p>
+<p>各种NLP任务中。作为不断增加的，想要用word2vec或其他相似技术来做实验的 研究者中的一员。我注意到 缺少一篇 能全面解释 学习词嵌入过程中参数细节 的文章，同时，这也会阻碍 那些在神经网络领域非专家的研究者们 对于这样的模型们工作机制的理解。</p>
+<h2 id="Continuous-Bag-of-Word-Model"><a href="#Continuous-Bag-of-Word-Model" class="headerlink" title="Continuous Bag-of-Word Model"></a>Continuous Bag-of-Word Model</h2><h3 id="1-1-One-word-context"><a href="#1-1-One-word-context" class="headerlink" title="1.1 One-word context"></a>1.1 One-word context</h3><p><img src="word2vec%20Parameter%20Learning%20Explained.assets/image-20200306233212992.png" alt="image-20200306233212992"></p>
+<p>单词表大小：V</p>
+<p>隐藏层大小：N（同时也是单词的维数）</p>
+<p>层与层之间采用全连接</p>
+<p>输入采用 One-hot Representation X 与 W 做矩阵乘法 相当于从 W 中直接取出一行。<br>$$<br>\mathbf{h}=\mathbf{W}^{T} \mathbf{x}=\mathbf{W}<em>{(k, \cdot)}^{T}:=\mathbf{v}</em>{w_{I}}^{T}<br>$$<br>$\mathbf{V} w_{I}$是 输入单词 $w_i$ 的向量表示</p>
+<p>同时也说明了 隐藏层没有 激活函数 相当于 直传。</p>
+<p><img src="word2vec%20Parameter%20Learning%20Explained.assets/word2vec_parameter_learning_explained_1.png" alt="word2vec_parameter_learning_explained_1"></p>
+<p>而对于 隐藏层 到 输出层 之间 有一个不同的矩阵 $\mathbf{W}^{\prime}=\left{w_{i j}^{\prime}\right}$</p>
+<p><img src="word2vec%20Parameter%20Learning%20Explained.assets/word2vec_parameter_learning_explained_3.png" alt="word2vec_parameter_learning_explained_3"></p>
+<p>下面，我们计算 每个词 的得分</p>
+<p><img src="word2vec%20Parameter%20Learning%20Explained.assets/image-20200306234720908.png" alt="image-20200306234720908"></p>
+<p>最后算概率$y_i$<br>$$<br>p\left(w_{j} | w_{I}\right)=y_{j}=\frac{\exp \left(u_{j}\right)}{\sum_{j^{\prime}=1}^{V} \exp \left(u_{j^{\prime}}\right)}<br>$$<br>将上式合并：</p>
+<p><img src="word2vec%20Parameter%20Learning%20Explained.assets/image-20200306235405285.png" alt="image-20200306235405285"></p>
+<p>这样，我们相当于把网络从前往后推了一遍，而$v_w$和$\mathbf{V}_{\boldsymbol{w}}^{\prime}$分别就是word2vec的2vec。</p>
+<p>接下来就是更新权重，也就是词向量</p>
+<p>首先，明确误差函数：</p>
+<p><img src="word2vec%20Parameter%20Learning%20Explained.assets/image-20200307000200085.png" alt="image-20200307000200085"></p>
+<p>其中$j^{*}$是输出层 真实输出的 索引</p>
+<p>接下来开始求导：</p>
+<p>首先是，E 对 得分的求导：<br>$$<br>\frac{\partial E}{\partial u_{j}}=y_{j}-t_{j}:=e_{j}<br>$$<br>只有当$j$ = $j^*$时，$t_j = 1$，否则为零。</p>
+<p>接下来，求$w^{\prime}<em>{ij}$的导数<br>$$<br>\frac{\partial E}{\partial w</em>{i j}^{\prime}}=\frac{\partial E}{\partial u_{j}} \cdot \frac{\partial u_{j}}{\partial w_{i j}^{\prime}}=e_{j} \cdot h_{i}<br>$$</p>
+<p>这个时候，可以更新参数了<br>$$<br>w_{i j}^{\prime}(\text { new })=w_{i j}^{\prime}(\text { old })-\eta \cdot e_{j} \cdot h_{i}<br>$$<br>其中：<img src="word2vec%20Parameter%20Learning%20Explained.assets/image-20200307001906086.png" alt="image-20200307001906086"></p>
+<p>下面去更新 输入层 到 隐藏层 之间的权重<br>$$<br>\frac{\partial E}{\partial h_{i}}=\sum_{j=1}^{V} \frac{\partial E}{\partial u_{j}} \cdot \frac{\partial u_{j}}{\partial h_{i}}=\sum_{j=1}^{V} e_{j} \cdot w_{i j}^{\prime}:=\mathrm{EH}_{i}<br>$$<br>同样注意，有sigma。</p>
+<p>接下来，算E对于W的导数：<br>$$<br>\frac{\partial E}{\partial w_{k i}}=\frac{\partial E}{\partial h_{i}} \cdot \frac{\partial h_{i}}{\partial w_{k i}}=\mathrm{EH}<em>{i} \cdot x</em>{k}<br>$$</p>
+<p>更新权重：<br>$$<br>\mathbf{v}<em>{w</em>{I}}^{(\text {new })}=\mathbf{v}<em>{w</em>{I}}^{(\text {old })}-\eta \mathrm{EH}^{T}<br>$$</p>
+<h2 id="优化方法"><a href="#优化方法" class="headerlink" title="优化方法"></a>优化方法</h2><h3 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h3><p>$$<br>p\left(w=w_{O}\right)=\prod_{j=1}^{L(w)-1} \sigma\left([n(w, j+1)=\operatorname{ch}(n(w, j))] \cdot \mathbf{v}_{n(w, j)}^{\prime} \mathbf{h}\right)<br>$$</p>
+<h3 id="负采样"><a href="#负采样" class="headerlink" title="负采样"></a>负采样</h3><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="1-为什么是两个向量"><a href="#1-为什么是两个向量" class="headerlink" title="1. 为什么是两个向量"></a>1. 为什么是两个向量</h3><p>参考：</p>
+<p>word2vec Parameter Learning Explained</p>
+<p><a href="https://blog.csdn.net/lanyu_01/article/details/80097350（《word2vec" target="_blank" rel="noopener">https://blog.csdn.net/lanyu_01/article/details/80097350（《word2vec</a> Parameter Learning Explained》论文学习笔记）</p>
+<p><a href="http://www.pianshen.com/article/6780283075/（论文《word2vec" target="_blank" rel="noopener">http://www.pianshen.com/article/6780283075/（论文《word2vec</a> Parameter Learning Explained》笔记）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/05/word2vec%20Parameter%20Learning%20Explained/" data-id="ck8n608tw0000x4vbfuyd73ek" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/05/hello-world/" class="article-date">
+  <time datetime="2020-04-05T14:35:08.550Z" itemprop="datePublished">2020-04-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/05/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/05/hello-world/" data-id="ck8n5tu2d0000v4vb0g3p47zm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/05/word2vec%20Parameter%20Learning%20Explained/">word2vec Parameter Learning Explained</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/05/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
